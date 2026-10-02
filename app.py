@@ -2,13 +2,29 @@ import os
 import re
 import time
 import resend
-from flask import Flask, request, jsonify
+
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 app = Flask(__name__)
 
-FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN", "http://127.0.0.1:5500")
-CORS(app, resources={r"/send-message": {"origins": [FRONTEND_ORIGIN]}})
+FRONTEND_ORIGIN = os.getenv(
+    "FRONTEND_ORIGIN",
+    "http://127.0.0.1:5500"
+)
+
+CORS(
+    app,
+    resources={
+        r"/send-message": {
+            "origins": [
+                FRONTEND_ORIGIN,
+                "http://127.0.0.1:5500",
+                "http://localhost:5500"
+            ]
+        }
+    }
+)
 
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
@@ -20,6 +36,18 @@ request_history = {}
 def valid_email(email):
     pattern = r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
     return re.fullmatch(pattern, email) is not None
+
+
+# Serve the portfolio homepage
+@app.route("/")
+def home():
+    return send_from_directory(".", "index.html")
+
+
+# Serve CSS, JavaScript, images and other frontend files
+@app.route("/<path:filename>")
+def serve_static(filename):
+    return send_from_directory(".", filename)
 
 
 @app.route("/send-message", methods=["POST"])
@@ -96,4 +124,9 @@ def send_message():
 if __name__ == "__main__":
     print("Starting Flask contact backend...")
     print("Server: http://127.0.0.1:5000")
-    app.run(host="127.0.0.1", port=5000, debug=False)
+
+    app.run(
+        host="127.0.0.1",
+        port=5000,
+        debug=False
+    )
