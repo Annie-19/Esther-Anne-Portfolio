@@ -10,6 +10,11 @@ I am a Computer Science graduate building my skills across **Artificial Intellig
 
 I created this portfolio to showcase my projects, technical skills, and professional journey.
 
+## 🌐 Live Portfolio
+
+[Visit my portfolio] https://esther-anne-portfolio.onrender.com/
+
+
 ## Technologies Used
 
 * HTML
@@ -27,11 +32,10 @@ I created this portfolio to showcase my projects, technical skills, and professi
 * Projects section
 * Contact form
 * Flask backend
-* Email notifications through Gmail SMTP
+* Email notifications through Resend
 * Smooth navigation
 
 ## Featured Project
-
 ### Phishing URL Detector
 
 A machine-learning project that predicts whether a URL is likely to be legitimate or phishing.
