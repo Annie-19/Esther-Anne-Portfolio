@@ -153,3 +153,89 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+
+// CERTIFICATE VIEWER
+
+const certificateModal = document.getElementById("certificateModal");
+const closeCertificateModal = document.getElementById("closeCertificateModal");
+
+const certificateImage = document.getElementById("certificateImage");
+const certificatePDF = document.getElementById("certificatePDF");
+
+const modalTitle = document.getElementById("modalTitle");
+
+
+// Open certificate
+document.querySelectorAll(".view-certificate").forEach(button => {
+
+    button.addEventListener("click", function () {
+
+        const file = this.dataset.file;
+        const type = this.dataset.type;
+
+        certificateModal.classList.add("active");
+
+        document.body.style.overflow = "hidden";
+
+        certificateImage.hidden = true;
+        certificatePDF.hidden = true;
+
+        certificateImage.src = "";
+        certificatePDF.src = "";
+
+        if (type === "image") {
+
+            certificateImage.src = file;
+            certificateImage.hidden = false;
+
+        } else if (type === "pdf") {
+
+            certificatePDF.src = file;
+            certificatePDF.hidden = false;
+
+        }
+
+        modalTitle.textContent = this.closest(".certificate-card")
+            .querySelector("h3").textContent;
+
+    });
+
+});
+
+
+// Close certificate viewer
+function closeCertificateViewer() {
+
+    certificateModal.classList.remove("active");
+
+    certificateImage.src = "";
+    certificatePDF.src = "";
+
+    document.body.style.overflow = "";
+
+}
+
+
+// Close using X
+closeCertificateModal.addEventListener("click", closeCertificateViewer);
+
+
+// Close by clicking outside
+certificateModal.addEventListener("click", function(event) {
+
+    if (event.target === certificateModal) {
+        closeCertificateViewer();
+    }
+
+});
+
+
+// Close using Escape key
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+        closeCertificateViewer();
+    }
+
+});
